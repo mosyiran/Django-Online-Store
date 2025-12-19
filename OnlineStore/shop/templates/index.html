@@ -83,9 +83,12 @@
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
             {% for item in products %}
-            <div class="col mb-5">
+            {% if item.is_sale %}
+                <div class="col mb-5">
                 <div class="card h-100">
-
+                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Special Discount</div>
+                    <!--sale badge-->
+                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                     <!-- Product image -->
                     <img class="card-img-top"
                          src="{{ item.picture.url|default:'/static/images/default.jpg' }}"
@@ -95,6 +98,51 @@
                     <div class="card-body p-4">
                         <div class="text-center">
                             <h5 class="fw-bolder">{{ item.name }}</h5>
+                            <div class="d-flex justify-content-center samll text-warning mb-2" >
+                                {% with ''|center:item.star as range %}
+                                {% for _ in range %}
+                                  <div class="bi-star-fill"></div>
+                                {% endfor %}
+                                {% endwith %}
+                            </div>
+                            <strike> {{ item.price|intcomma }} dollars </strike> <br>
+                            {{ item.sale_price|intcomma }} dollars
+                        </div>
+                    </div>
+
+                    <!-- Product actions -->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="#">
+                                View Product
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+                {% else %}
+                                <div class="col mb-5">
+                <div class="card h-100">
+                    <!--sale badge-->
+                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                    <!-- Product image -->
+                    <img class="card-img-top"
+                         src="{{ item.picture.url|default:'/static/images/default.jpg' }}"
+                         alt="{{ item.name }}">
+
+                    <!-- Product details -->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{{ item.name }}</h5>
+                                                        <div class="d-flex justify-content-center samll text-warning mb-2" >
+                                {% with ''|center:item.star as range %}
+                                {% for _ in range %}
+                                  <div class="bi-star-fill"></div>
+                                {% endfor %}
+                                {% endwith %}
+                            </div>
+                            {{ item.star }} <br>
                             {{ item.price|intcomma }} dollars
                         </div>
                     </div>
@@ -103,13 +151,15 @@
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center">
                             <a class="btn btn-outline-dark mt-auto" href="#">
-                                View options
+                                View Product
                             </a>
                         </div>
                     </div>
 
                 </div>
             </div>
+
+                {% endif %}
             {% endfor %}
 
         </div>
@@ -120,7 +170,7 @@
 <footer class="py-5 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">
-            Copyright &copy; Your Website 2023
+            Copyright &copy; Your Website 2026
         </p>
     </div>
 </footer>

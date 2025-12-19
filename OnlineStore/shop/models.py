@@ -1,6 +1,6 @@
 from django.db import models
 import datetime
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -29,7 +29,9 @@ class Product(models.Model):
     #     ('xl', 50),
     # )
     # size = models.CharField(max_length=4, choices=SIZES, default=32)
-
+    is_sale = models.BooleanField(default=False)
+    sale_price = models.DecimalField(default=0, max_digits=12, decimal_places=0)
+    star = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)] )
     def __str__(self):
         return self.name
 
