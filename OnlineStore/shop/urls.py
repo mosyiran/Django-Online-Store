@@ -1,12 +1,12 @@
 
-from django.urls import path, include
-from .views import helloworld, about, login_user, logout_user
-
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', helloworld, name='home'),
-    path('login/', login_user, name='login'),
-    path('logout/', logout_user, name='logout'),
-    path('about/', about, name='about'),
+    path('', views.helloworld, name='home'),
+    path('login/', views.login_user, name='login'),
+    path('logout/', views.logout_user, name='logout'),
+    path('about/', views.about, name='about'),
+    path('signup/', views.signup_user, name='signup'),
 ]
 
