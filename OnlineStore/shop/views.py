@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Product, Category
-from  django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -8,13 +8,14 @@ from django import forms
 from .forms import SignupForm
 
 
-
 def helloworld(request):
     all_products = Product.objects.all()
     return render(request, 'index.html', {'products': all_products})
 
+
 def about(request):
     return render(request, 'about.html')
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -26,15 +27,17 @@ def login_user(request):
             messages.success(request, 'You are now logged in')
             return redirect('home')
         else:
-             messages.error(request, 'Please enter correct username and password.')
-             return redirect('login')
+            messages.error(request, 'Please enter correct username and password.')
+            return redirect('login')
     else:
-       return render(request, 'login.html')
+        return render(request, 'login.html')
+
 
 def logout_user(request):
     logout(request)
     messages.success(request, 'You have been logged out.')
     return redirect('home')
+
 
 def signup_user(request):
     form = SignupForm()
@@ -44,7 +47,7 @@ def signup_user(request):
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
-            user= authenticate(request, username=username, password= password)
+            user = authenticate(request, username=username, password=password)
             login(request, user)
             messages.success(request, 'You are now registered')
             return redirect('home')
@@ -54,6 +57,7 @@ def signup_user(request):
             return redirect('signup_user')
     else:
         return render(request, 'signup.html', {'form': form})
+
 
 def product(request, pk):
     products = Product.objects.get(id=pk)
@@ -65,7 +69,7 @@ def category(request, cat):
     try:
         category = Category.objects.get(name=cat)
         products = Product.objects.filter(category=category)
-        return render(request, 'category.html', {'products': products , 'category': category})
+        return render(request, 'category.html', {'products': products, 'category': category})
 
     except:
         messages.success(request, 'Category does not exist')
