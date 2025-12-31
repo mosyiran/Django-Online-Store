@@ -1,20 +1,76 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
+
 {% block content %}
-    <!-- Header -->
-    <header class="bg-dark py-5">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Shopping cart</h1>
-                <p class="lead fw-normal text-white-50 mb-0">
-                    products in the cart
-                </p>
-            </div>
+
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shopping cart</h1>
+            <p class="lead fw-normal text-white-50 mb-0">
+                products in the cart
+            </p>
         </div>
-    </header>
+    </div>
+</header>
 
-<br> <br>
+<br><br>
+
+<div class="container">
+
+    {% if cart_products %}
+        {% for product in cart_products %}
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ product.picture.url }}"
+                             class="img-fluid rounded-start"
+                             alt="{{ product.name }}">
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+
+                            <p class="card-text">
+                                {{ product.description }}
+                            </p>
+
+                            {% if product.is_sale %}
+                                <p class="card-text">
+                                    <strike>{{ product.price|intcomma }}</strike>
+                                    -
+                                    {{ product.sale_price|intcomma }}
+                                </p>
+                            {% else %}
+                                <p class="card-text">
+                                    {{ product.price|intcomma }}
+                                </p>
+                            {% endif %}
+
+                            <br>
+
+                            <a href="{% url 'home' %}"
+                               class="btn btn-secondary">
+                                Return Main Page
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <p class="text-center">
+            Your Basket is Empty
+        </p>
+    {% endif %}
+
+</div>
+
+<br><br>
+
 {% endblock %}
-
-
