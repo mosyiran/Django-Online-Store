@@ -74,6 +74,13 @@
 
                                 </button>
 
+
+                                <button type="button" data-index={{ product.id }} class="btn btn-danger delete-product
+                                ">
+                                Delete From Shopping Basket
+
+                                </button>
+
                                 <a href="{% url 'home' %}"
                                    class="btn btn-secondary">
                                     Return Main Page
@@ -105,6 +112,30 @@
                     data: {
                         product_id: $(this).data('index'),
                         product_qty: $('#select' + productid + ' option:selected').text(),
+                        csrfmiddlewaretoken: '{{csrf_token}}',
+                        action: 'post'
+                    },
+                    success: function (json) {
+                        {#console.log(json)#}
+                        {#document.getElementById('cart_quantity').textContent = json.qty#}
+                        location.reload();
+                    },
+                    error: function (xhr, errmsg, err) {
+
+                    }
+                }
+            )
+        })
+
+
+        $(document).on('click', '.delete-product', function (e) {
+            e.preventDefault();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '{% url 'cart_delete' %}',
+                    data: {
+                        product_id: $(this).data('index'),
                         csrfmiddlewaretoken: '{{csrf_token}}',
                         action: 'post'
                     },
