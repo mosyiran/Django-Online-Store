@@ -7,6 +7,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .forms import SignupForm
 
+def category_summary(request):
+    all_cat = Category.objects.all()
+    return render(request, 'category_summary.html', {'category': all_cat})
+
+
+
+
 
 def helloworld(request):
     all_products = Product.objects.all()
