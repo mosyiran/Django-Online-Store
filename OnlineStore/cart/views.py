@@ -4,6 +4,7 @@ from shop.views import product
 from .cart import Cart
 from shop.models import Product
 from django.http import JsonResponse
+from django.contrib import messages
 
 
 def cart_summary(request):
@@ -31,6 +32,7 @@ def cart_add(request):
         cart_quantity = cart.__len__()
         # response = JsonResponse({'product_name' : product.name})
         response = JsonResponse({'qty': cart_quantity})
+        messages.success(request, 'You Product was added to shopping basket.')
         return response
 
 
@@ -42,6 +44,7 @@ def cart_update(request):
         product_qty = int(request.POST.get('product_qty'))
         cart.update(product=product_id, quantity=product_qty)
         response = JsonResponse({'qty': product_qty})
+        messages.success(request, 'You Product was Updated from shopping basket.')
         return response
 
 
@@ -52,4 +55,5 @@ def cart_delete(request):
         product_id = int(request.POST.get('product_id'))
         cart.delete(product=product_id)
         response = JsonResponse({'product': product_id})
+        messages.success(request, 'You Product was Deleted from shopping basket.')
         return response
