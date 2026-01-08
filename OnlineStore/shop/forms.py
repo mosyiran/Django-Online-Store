@@ -1,8 +1,25 @@
 from cProfile import label
 
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
+
+
+class UpdatePasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="", widget=forms.PasswordInput(attrs={
+            'class': 'form-control', 'name': 'password', 'type': 'password', 'placeholder': 'Password'})
+    )
+
+    new_password2 = forms.CharField(
+        label="", widget=forms.PasswordInput(attrs={
+            'class': 'form-control', 'name': 'password', 'type': 'password', 'placeholder': 'retype Password'})
+    )
+
+    class Meta:
+        model = User
+        fields = ('new_password1', 'new_password2')
+
 
 class UpdateUserForm(UserChangeForm):
     password = None
@@ -27,8 +44,6 @@ class UpdateUserForm(UserChangeForm):
         fields = ('first_name', 'last_name', 'email', 'user_name')
 
 
-
-
 class SignupForm(UserCreationForm):
     first_name = forms.CharField(
         label="", max_length=50,
@@ -48,13 +63,14 @@ class SignupForm(UserCreationForm):
 
     password1 = forms.CharField(
         label="", widget=forms.PasswordInput(attrs={
-            'class': 'form-control', 'name':'password','type':'password','placeholder':'Password'})
+            'class': 'form-control', 'name': 'password', 'type': 'password', 'placeholder': 'Password'})
     )
 
     password2 = forms.CharField(
         label="", widget=forms.PasswordInput(attrs={
             'class': 'form-control', 'name': 'password', 'type': 'password', 'placeholder': 'retype Password'})
     )
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'user_name', 'password1', 'password2')
